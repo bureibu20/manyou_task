@@ -11,7 +11,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit new_task_path
         fill_in "task[title]", with: "test_title"
         fill_in "task[content]", with: "test_content"
-        click_on "Create Task"
+        click_on "登録する"
         expect(page).to have_content "test_title"
         expect(page).to have_content "test_content"
       end
@@ -23,6 +23,14 @@ RSpec.describe 'タスク管理機能', type: :system do
         visit tasks_path
         expect(page).to have_content "test_title"
         expect(page).to have_content "test_content"
+      end
+    end
+    context 'タスクが作成日時の降順に並んでいる場合' do
+      it '新しいタスクが一番上に表示される' do
+        visit tasks_path
+        task_list = all('.task_row') 
+        expect(task_list[0]).to have_content 'test_title2'
+        expect(task_list[1]).to have_content 'test_title1'
       end
     end
   end
